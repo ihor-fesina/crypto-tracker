@@ -1,15 +1,19 @@
-import {useGetStatsQuery} from "../services/cryptoApi";
+import {useGetStatsQuery, useGetCoinsQuery} from "../services/cryptoApi";
 import StatisticSection from "../components/StatisticSection";
 
 import {LoaderOne} from "../components/ui/loader.tsx";
 import MarqueeSection from "../components/MarqueeSection.tsx";
+import CryptoSearch from "../components/CryptoSearch.tsx";
 
 const Home = () => {
-        const {data, isFetching, error} = useGetStatsQuery();
-        const stats = data?.data;
+    const { data: statsData, isFetching: isFetchingStats, error: errorStats } = useGetStatsQuery();
+    const { data: coinsData, isFetching: isFetchingCoins} = useGetCoinsQuery();
 
-        if (isFetching) return <div className=""><LoaderOne/></div>;
-        if (error) return <div className="">Error occurred</div>;
+    const stats = statsData?.data;
+        const coins = coinsData?.data?.coins;
+
+        if (isFetchingStats || isFetchingCoins) return <div className=""><LoaderOne/></div>;
+        if (errorStats) return <div className="">Error occurred</div>;
 
         return (
             <div className="container">
@@ -17,13 +21,13 @@ const Home = () => {
                 {stats ? (
                     <>
                         <StatisticSection stats={stats}/>
-                        <MarqueeSection title={'newest coins'} items={stats.newestCoins} direction={'right'} />
-                        <MarqueeSection title={'best coins'} items={stats.bestCoins} direction={'left'} />
-
+                        <MarqueeSection title={'newest coins'} items={stats.newestCoins} direction={'right'}/>
+                        <MarqueeSection title={'best coins'} items={stats.bestCoins} direction={'left'}/>
                     </>
                 ) : (
                     <div className="text-center text-gray-400">No data</div>
                 )}
+                {coins && (<CryptoSearch coinsList={coins} />)}
             </div>
         )
             ;
