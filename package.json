@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "NODE_OPTIONS='--openssl-legacy-provider' vite",
+    "build": "NODE_OPTIONS='--openssl-legacy-provider' tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "NODE_OPTIONS='--openssl-legacy-provider' vite preview"
   },
   "dependencies": {
     "@ant-design/icons": "^6.0.0",
