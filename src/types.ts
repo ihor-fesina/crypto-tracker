@@ -6,20 +6,22 @@ export interface Coin {
     coinrankingUrl: string;
 }
 
+export interface Stats {
+    referenceCurrencyRate: number;
+    totalCoins: number;
+    totalMarkets: number;
+    totalExchanges: number;
+    totalMarketCap: string;
+    total24hVolume: string;
+    btcDominance: number;
+    btcMarketCap: string;
+    bestCoins: Coin[];
+    newestCoins: Coin[];
+}
+
 export interface StatsApiResponse {
     status: 'success';
-    data: {
-        referenceCurrencyRate: number;
-        totalCoins: number;
-        totalMarkets: number;
-        totalExchanges: number;
-        totalMarketCap: string;
-        total24hVolume: string;
-        btcDominance: number;
-        btcMarketCap: string;
-        bestCoins: Coin[];
-        newestCoins: Coin[];
-    };
+    data: Stats
 }
 
 export interface ApiError {

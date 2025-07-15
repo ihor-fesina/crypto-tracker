@@ -1,11 +1,18 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
+    --main-text-color: #fff;
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
 }
 
+body {
+        min-height: 100vh;
+        background: linear-gradient(#0b004e, #1d152f, #002834);
+        color: var(--main-text-color);
+}
+
+.container {
+    @apply max-w-7xl mx-auto px-4;
+}
