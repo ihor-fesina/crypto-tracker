@@ -9,14 +9,19 @@ import {
   CartesianGrid,
 } from 'recharts';
 import { LoaderOne } from '../../ui/loader.tsx';
-import type { CoinHistoryApiResponse } from '../../../types.ts';
+import {useGetCoinHistoryQuery} from "../../../services/cryptoApi.ts";
+import type {AllowedTimePeriods} from "../../../types";
 
 interface CoinChartProps {
-  history: CoinHistoryApiResponse | undefined;
-  isFetching: boolean;
+  coinId:string
+  timePeriod:AllowedTimePeriods,
 }
 
-const CoinChart: React.FC<CoinChartProps> = ({ history, isFetching }) => {
+const CoinChart: React.FC<CoinChartProps> = ({coinId, timePeriod}) => {
+  const {data:history, isFetching} = useGetCoinHistoryQuery(
+      {uuid: coinId!, period: timePeriod},
+      {skip: !coinId}
+  );
   if (isFetching) {
     return (
         <div className="flex justify-center items-center h-40">

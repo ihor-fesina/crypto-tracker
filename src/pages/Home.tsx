@@ -1,4 +1,4 @@
-import {useGetStatsQuery, useGetCoinsQuery} from "../services/cryptoApi";
+import {useGetStatsQuery} from "../services/cryptoApi";
 import StatisticSection from "../components/pages/Home/StatisticSection.tsx";
 
 import {LoaderOne} from "../components/ui/loader.tsx";
@@ -7,12 +7,12 @@ import CryptoSearch from "../components/pages/Home/CryptoSearch.tsx";
 
 const Home = () => {
     const { data: statsData, isFetching: isFetchingStats, error: errorStats } = useGetStatsQuery();
-    const { data: coinsData, isFetching: isFetchingCoins} = useGetCoinsQuery();
+
 
     const stats = statsData?.data;
-        const coins = coinsData?.data?.coins;
 
-        if (isFetchingStats || isFetchingCoins) return <div className="flex items-center justify-center mt-40"><LoaderOne/></div>;
+
+        if (isFetchingStats) return <div className="flex items-center justify-center mt-40"><LoaderOne/></div>;
         if (errorStats) return <div>Error occurred</div>;
 
         return (
@@ -27,7 +27,7 @@ const Home = () => {
                 ) : (
                     <div className="text-center text-gray-400">No data</div>
                 )}
-                {coins && (<CryptoSearch coinsList={coins} />)}
+                <CryptoSearch/>
             </div>
         )
             ;

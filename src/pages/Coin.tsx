@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Navigate, useParams} from 'react-router-dom';
-import {useGetCoinDetailQuery, useGetCoinHistoryQuery} from '../services/cryptoApi';
+import {useGetCoinDetailQuery} from '../services/cryptoApi';
 import {LoaderOne} from '../components/ui/loader';
 import type {AllowedTimePeriods, CoinDetail} from "../types.ts";
 import CoinChart from "../components/pages/Coin/CoinChart.tsx";
@@ -70,10 +70,6 @@ const Coin: React.FC = () => {
     const [timePeriod, setTimePeriod] = useState<AllowedTimePeriods>('3m');
 
     const {data, isFetching} = useGetCoinDetailQuery(coinId!, {skip: !coinId});
-    const {data: coinHistory, isFetching: isFetchingCoinHistory} = useGetCoinHistoryQuery(
-        {uuid: coinId!, period: timePeriod},
-        {skip: !coinId}
-    );
 
     if (isFetching)
         return (
@@ -83,7 +79,7 @@ const Coin: React.FC = () => {
         );
     const coin = data?.data.coin;
     if (!coin) {
-        return <Navigate to="/404" replace />;
+        return <Navigate to="/404" replace/>;
     }
 
     return (
@@ -105,10 +101,10 @@ const Coin: React.FC = () => {
                     </a>
                 </div>
             </div>
-            <StatsGrid<CoinDetail> data={coin} fields={coinFields} title="Coin Stats" />
+            <StatsGrid<CoinDetail> data={coin} fields={coinFields} title="Coin Stats"/>
             <TimePeriodSelect option={timePeriod} options={timePeriods} onChange={setTimePeriod}
                               title={'Select time period'}/>
-            <CoinChart history={coinHistory} isFetching={isFetchingCoinHistory}/>
+            {coinId && <CoinChart coinId={coinId} timePeriod={timePeriod}/>}
             <CoinTags tags={coin.tags}/>
             <div className="mb-4">
                 <div className="text-gray-500 text-xs mb-1">Description</div>
@@ -118,7 +114,7 @@ const Coin: React.FC = () => {
                 />
             </div>
             <CoinLinks links={coin.links}/>
-            <StatsGrid<CoinDetail["supply"]> data={coin.supply} fields={supplyFields} title="Supply Info" />
+            <StatsGrid<CoinDetail["supply"]> data={coin.supply} fields={supplyFields} title="Supply Info"/>
         </div>
     );
 };

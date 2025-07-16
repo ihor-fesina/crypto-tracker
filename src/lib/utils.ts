@@ -33,3 +33,8 @@ export const getStatValue = (
   }
   return 'N/A';
 };
+
+export const buildQueryUrl = (path: string, params?: Record<string, string>) => {
+  const query = params ? `?${new URLSearchParams(params).toString()}` : "";
+  return `${path}${query}`;
+};

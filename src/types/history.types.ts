@@ -16,4 +16,8 @@ export interface CoinHistoryApiResponse {
 export interface CoinHistoryQueryParams {
     uuid: string;
     period: AllowedTimePeriods;
-} 
+}
+export interface CoinsQueryParams {
+    offset: string;
+    limit: string;
+}

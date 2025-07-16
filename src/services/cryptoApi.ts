@@ -3,9 +3,10 @@ import type {
     CoinDetailApiResponse,
     CoinHistoryApiResponse,
     CoinHistoryQueryParams,
-    CoinsApiResponse,
+    CoinsApiResponse, CoinsQueryParams,
     StatsApiResponse
 } from "../types";
+import {buildQueryUrl} from "../lib/utils.ts";
 
 
 const cryptoApiHeaders = {
@@ -24,8 +25,8 @@ export const cryptoApi = createApi({
         getStats: builder.query<StatsApiResponse, void>({
             query: () => createRequest(`/stats`),
         }),
-        getCoins: builder.query<CoinsApiResponse, void>({
-            query: () => createRequest(`/coins`),
+        getCoins: builder.query<CoinsApiResponse, CoinsQueryParams>({
+            query: ({...params}) => createRequest(buildQueryUrl(`/coins`, params)),
         }),
         getCoinDetail: builder.query<CoinDetailApiResponse, string>({
             query: (uuid:string) => createRequest(`/coin/${uuid}`),

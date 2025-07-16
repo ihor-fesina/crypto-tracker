@@ -1,33 +1,37 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import millify from "millify";
-import type { CoinDetailed } from "../../../types.ts";
 import { useNavigate } from "react-router-dom";
-
-interface Props {
-    coinsList: CoinDetailed[];
-}
+import { useGetCoinsQuery } from "../../../services/cryptoApi";
+import { LoaderOne } from "../../ui/loader";
 
 const ITEMS_PER_PAGE = 10;
 
-const CryptoSearch: React.FC<Props> = ({ coinsList }) => {
+const CryptoSearch: React.FC = () => {
+    const [offset, setOffset] = useState(0);
     const [search, setSearch] = useState("");
-    const [page, setPage] = useState(1);
     const navigate = useNavigate();
 
-    const filtered = useMemo(
-        () =>
-            coinsList.filter((coin) =>
-                coin.name.toLowerCase().includes(search.toLowerCase())
-            ),
-        [coinsList, search]
+    const { data, isFetching } = useGetCoinsQuery({
+        offset: String(offset),
+        limit: String(ITEMS_PER_PAGE),
+    });
+
+    const coins = data?.data?.coins || [];
+    const total = Number(data?.data?.stats?.totalCoins) || 0;
+    const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
+    const currentPage = offset / ITEMS_PER_PAGE + 1;
+
+    const filteredCoins = coins.filter((coin) =>
+        coin.name.toLowerCase().includes(search.toLowerCase())
     );
 
-    const paginated = useMemo(() => {
-        const start = (page - 1) * ITEMS_PER_PAGE;
-        return filtered.slice(start, start + ITEMS_PER_PAGE);
-    }, [filtered, page]);
-
-    const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+    if (isFetching) {
+        return (
+            <div className="flex justify-center items-center h-40">
+                <LoaderOne />
+            </div>
+        );
+    }
 
     return (
         <div className="space-y-4 py-6">
@@ -36,7 +40,7 @@ const CryptoSearch: React.FC<Props> = ({ coinsList }) => {
                 value={search}
                 onChange={(e) => {
                     setSearch(e.target.value);
-                    setPage(1);
+                    setOffset(0);
                 }}
                 placeholder="Search coin..."
                 className="p-2 w-full rounded bg-white text-black"
@@ -54,7 +58,7 @@ const CryptoSearch: React.FC<Props> = ({ coinsList }) => {
                     </tr>
                     </thead>
                     <tbody>
-                    {paginated.map((coin) => (
+                    {filteredCoins.map((coin) => (
                         <tr
                             key={coin.uuid}
                             onClick={() => navigate(`/coin/${coin.uuid}`)}
@@ -70,7 +74,8 @@ const CryptoSearch: React.FC<Props> = ({ coinsList }) => {
                                     className="rounded-full flex-shrink-0 object-contain"
                                 />
                                 <div className="truncate">
-                                    {coin.name} <span className="text-gray-500">({coin.symbol})</span>
+                                    {coin.name}{" "}
+                                    <span className="text-gray-500">({coin.symbol})</span>
                                 </div>
                             </td>
                             <td className="p-2">${millify(Number(coin.price))}</td>
@@ -84,18 +89,22 @@ const CryptoSearch: React.FC<Props> = ({ coinsList }) => {
 
             <div className="flex justify-between items-center">
                 <button
-                    onClick={() => setPage((p) => Math.max(1, p - 1))}
-                    disabled={page === 1}
+                    onClick={() => setOffset((prev) => Math.max(0, prev - ITEMS_PER_PAGE))}
+                    disabled={offset === 0}
                     className="px-4 py-2 bg-white text-black rounded disabled:opacity-50"
                 >
                     Prev
                 </button>
                 <span>
-          Page {page} of {totalPages}
+          Page {currentPage} of {totalPages}
         </span>
                 <button
-                    onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                    disabled={page === totalPages}
+                    onClick={() =>
+                        setOffset((prev) =>
+                            Math.min(prev + ITEMS_PER_PAGE, (totalPages - 1) * ITEMS_PER_PAGE)
+                        )
+                    }
+                    disabled={currentPage === totalPages}
                     className="px-4 py-2 bg-white text-black rounded disabled:opacity-50"
                 >
                     Next
