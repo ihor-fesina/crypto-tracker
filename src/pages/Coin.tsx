@@ -74,17 +74,17 @@ const Coin: React.FC = () => {
         {uuid: coinId!, period: timePeriod},
         {skip: !coinId}
     );
-    const coin = data?.data.coin;
-    if (!coin) {
-        return <Navigate to="/404" replace />;
-    }
+
     if (isFetching)
         return (
             <div className="flex items-center justify-center h-64">
                 <LoaderOne/>
             </div>
         );
-
+    const coin = data?.data.coin;
+    if (!coin) {
+        return <Navigate to="/404" replace />;
+    }
 
     return (
         <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-md text-black">
