@@ -1,8 +1,8 @@
 import React from 'react';
-import type {SimpleCoin} from "../types";
+import type { SimpleCoin } from "../types";
 import Marquee from "react-fast-marquee";
-import {HoverBorderGradient} from "./ui/hover-border-gradient.tsx";
-import {cn} from "../lib/utils.ts";
+import { HoverBorderGradient } from "./ui/hover-border-gradient.tsx";
+import { cn } from "../lib/utils.ts";
 
 interface Props {
     title: string;
@@ -10,13 +10,23 @@ interface Props {
     direction: 'left' | 'right';
 }
 
-const MarqueeSection: React.FC<Props> = ({title, items, direction}) => {
+const MarqueeSection: React.FC<Props> = ({ title, items, direction }) => {
     return (
-        <div className={cn("grid grid-cols-12 gap-2 py-[10px]")}>
-            <h3 className={cn("uppercase col-span-2 flex items-center", direction === 'right' ? 'justify-end order-1' : 'justify-start order-2')}>
+        <div className={cn("grid grid-cols-1 md:grid-cols-12 gap-2 py-[10px] max-w-5xl mx-auto")}>
+            <h3
+                className={cn(
+                    "uppercase col-span-2 flex items-center mb-2 md:mb-0 justify-center",
+                    direction === 'right' ? 'md:justify-end md:order-1' : 'md:justify-start md:order-2'
+                )}
+            >
                 {title}
             </h3>
-            <div className={cn("col-span-10", direction === 'right' ? 'order-2' : 'order-1')}>
+            <div
+                className={cn(
+                    "col-span-10",
+                    direction === 'right' ? 'md:order-2' : 'md:order-1'
+                )}
+            >
                 <Marquee direction={direction}>
                     <div className="flex gap-5 px-10">
                         {items?.map((coin) => (
@@ -50,4 +60,4 @@ const MarqueeSection: React.FC<Props> = ({title, items, direction}) => {
     );
 };
 
-export default MarqueeSection
+export default MarqueeSection;

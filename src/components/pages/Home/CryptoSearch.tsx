@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import millify from "millify";
 import type { CoinDetailed } from "../../../types.ts";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
     coinsList: CoinDetailed[];
@@ -61,15 +61,17 @@ const CryptoSearch: React.FC<Props> = ({ coinsList }) => {
                             className="border-b border-white/10 cursor-pointer hover:bg-white/10"
                         >
                             <td className="p-2">{coin.rank}</td>
-                            <td className="p-2 flex flex-row gap-2">
+                            <td className="p-2 flex items-center gap-2 max-w-[200px] truncate">
                                 <img
                                     src={coin.iconUrl}
                                     alt={coin.name}
                                     width={24}
                                     height={24}
-                                    className="rounded-full"
+                                    className="rounded-full flex-shrink-0 object-contain"
                                 />
-                                {coin.name} <span className='text-gray-500'>({coin.symbol})</span>
+                                <div className="truncate">
+                                    {coin.name} <span className="text-gray-500">({coin.symbol})</span>
+                                </div>
                             </td>
                             <td className="p-2">${millify(Number(coin.price))}</td>
                             <td className="p-2">{coin.change}%</td>
@@ -88,7 +90,9 @@ const CryptoSearch: React.FC<Props> = ({ coinsList }) => {
                 >
                     Prev
                 </button>
-                <span>Page {page} of {totalPages}</span>
+                <span>
+          Page {page} of {totalPages}
+        </span>
                 <button
                     onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                     disabled={page === totalPages}
@@ -100,6 +104,5 @@ const CryptoSearch: React.FC<Props> = ({ coinsList }) => {
         </div>
     );
 };
-
 
 export default CryptoSearch;
