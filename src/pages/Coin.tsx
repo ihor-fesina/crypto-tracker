@@ -9,7 +9,7 @@ import {timePeriods} from "../constants.ts";
 import CoinTags from "../components/pages/Coin/CoinTags.tsx";
 import DOMPurify from 'dompurify';
 import CoinLinks from "../components/pages/Coin/CoinLinks.tsx";
-import {getStatValue} from "../utils/format.ts";
+import {getStatValue} from "../lib/utils.ts";
 import StatsGrid from "../components/pages/Coin/CoinStats.tsx";
 
 const coinFields = [

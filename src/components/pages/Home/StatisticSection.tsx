@@ -3,7 +3,8 @@
 import React from 'react';
 import StatisticCard from './StatisticCard.tsx';
 import type { MarketStats, Stats } from '../../../types.ts';
-import { getStatValue } from '../../../utils/format.ts';
+import {getStatValue} from "../../../lib/utils.ts";
+
 
 interface StatisticSectionProps {
     stats: Stats;

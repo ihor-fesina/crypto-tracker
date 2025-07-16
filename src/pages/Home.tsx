@@ -12,8 +12,8 @@ const Home = () => {
     const stats = statsData?.data;
         const coins = coinsData?.data?.coins;
 
-        if (isFetchingStats || isFetchingCoins) return <div className=""><LoaderOne/></div>;
-        if (errorStats) return <div className="">Error occurred</div>;
+        if (isFetchingStats || isFetchingCoins) return <div className="flex items-center justify-center mt-40"><LoaderOne/></div>;
+        if (errorStats) return <div>Error occurred</div>;
 
         return (
             <div className="container">
