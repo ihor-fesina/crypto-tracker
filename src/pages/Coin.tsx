@@ -1,9 +1,10 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { useGetCoinDetailQuery } from '../services/cryptoApi';
+import {useGetCoinDetailQuery, useGetCoinHistoryQuery} from '../services/cryptoApi';
 import { LoaderOne } from '../components/ui/loader';
 import { getStatValue } from '../utils/format';
 import type {CoinDetail} from "../types.ts";
+import CoinChart from "../components/CoinChart.tsx";
 
 const coinFields = [
   {
@@ -45,9 +46,14 @@ const coinFields = [
   },
 ];
 
+
+
 const Coin: React.FC = () => {
   const { coinId } = useParams<{ coinId: string }>();
   const { data, isFetching } = useGetCoinDetailQuery(coinId!, { skip: !coinId });
+  const { data: coinHistory, isFetching: isFetchingCoinHistory } = useGetCoinHistoryQuery({ uuid: coinId!, period: '7d' }, { skip: !coinId });
+
+
 
   if (!coinId)
     return (
@@ -149,6 +155,7 @@ const Coin: React.FC = () => {
           {Number(coin.supply.max).toLocaleString()}
         </div>
       </div>
+        <CoinChart history={coinHistory} isFetching={isFetchingCoinHistory} />
     </div>
   );
 };
