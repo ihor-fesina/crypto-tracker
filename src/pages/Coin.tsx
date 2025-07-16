@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useParams} from 'react-router-dom';
+import {Navigate, useParams} from 'react-router-dom';
 import {useGetCoinDetailQuery, useGetCoinHistoryQuery} from '../services/cryptoApi';
 import {LoaderOne} from '../components/ui/loader';
 import type {AllowedTimePeriods, CoinDetail} from "../types.ts";
@@ -74,13 +74,10 @@ const Coin: React.FC = () => {
         {uuid: coinId!, period: timePeriod},
         {skip: !coinId}
     );
-
-    if (!coinId)
-        return (
-            <div className="flex items-center justify-center h-64 text-xl text-red-500">
-                Invalid coin id
-            </div>
-        );
+    const coin = data?.data.coin;
+    if (!coin) {
+        return <Navigate to="/404" replace />;
+    }
     if (isFetching)
         return (
             <div className="flex items-center justify-center h-64">
@@ -88,13 +85,6 @@ const Coin: React.FC = () => {
             </div>
         );
 
-    const coin = data?.data.coin;
-    if (!coin)
-        return (
-            <div className="flex items-center justify-center h-64 text-xl text-gray-500">
-                No data found
-            </div>
-        );
 
     return (
         <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-md text-black">
