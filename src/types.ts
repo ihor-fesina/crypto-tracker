@@ -1,4 +1,6 @@
-export type AllowedTimePeriods = '1h' | '3h' | '12h' | '24h' | '7d' | '30d' | '3m' | '1y' | '3y' | '5y';
+import type {timePeriods} from "./constants.ts";
+
+export type AllowedTimePeriods = (typeof timePeriods)[number];
 
 export interface SimpleCoin {
     uuid: string;
