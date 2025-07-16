@@ -1,69 +1,68 @@
-# React + TypeScript + Vite
+# Crypto Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A real-time cryptocurrency tracking application.
 
-Currently, two official plugins are available:
+## Description
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Crypto Tracker is a modern React application using TypeScript, Redux, TailwindCSS, and the Coinranking API. It allows you to view prices, statistics, charts, and detailed information about cryptocurrencies.
 
-## Expanding the ESLint configuration
+## Main Libraries Used
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React** — UI library
+- **TypeScript** — static typing
+- **Redux Toolkit (RTK)** — state management
+- **React Redux** — Redux bindings for React
+- **React Router DOM** — routing
+- **TailwindCSS** — utility-first CSS framework
+- **Chart.js** (via `react-chartjs-2`) — charts and data visualization
+- **DOMPurify** — sanitizing and protecting against dangerous HTML
+- **Coinranking API** — cryptocurrency data provider
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Architecture
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- **src/components/** — reusable components (Header, Footer, MarqueeSection, UI, etc.)
+- **src/components/pages/** — page-related components (Home, Coin)
+- **src/pages/** — top-level route pages (Home, Coin, NotFound)
+- **src/services/** — API service modules
+- **src/lib/** — utility functions
+- **src/app/** — Redux store
+- **src/types/** — domain-separated TypeScript types
+- **src/layout/** — layout components
+- **src/assets/** — assets
+- **src/constants.ts** — constants
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Pages
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The application includes the following pages:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Home** (`/`): Main page with cryptocurrency overview, statistics, and search.
+- **Coin** (`/coin/:coinId`): Detailed information, stats, and chart for a specific coin.
+- **NotFound** (`*`): 404 page for undefined routes.
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Quick Start
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start the project:
+   ```bash
+   npm run dev
+   ```
+3. Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+## API Documentation
+
+This project uses the Coinranking API. Documentation is available here: [Coinranking API Docs](https://account.coinranking.com/dashboard/api)
+
+## Types Structure
+
+Types are located in the `src/types/` folder and separated by domain:
+- `coin.types.ts` — coin types
+- `api.types.ts` — API response types
+- `stats.types.ts` — statistics types
+- `history.types.ts` — history types
+
+## License
+
+MIT
