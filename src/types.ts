@@ -32,7 +32,7 @@ export interface CoinStats {
     total24hVolume: string;
 }
 
-export interface Stats {
+export interface MarketStats {
     referenceCurrencyRate: number;
     totalCoins: number;
     totalMarkets: number;
@@ -41,6 +41,9 @@ export interface Stats {
     total24hVolume: string;
     btcDominance: number;
     btcMarketCap: string;
+}
+
+export interface Stats extends MarketStats {
     bestCoins: SimpleCoin[];
     newestCoins: SimpleCoin[];
 }
@@ -120,3 +123,4 @@ export interface CoinDetailApiResponse {
         coin: CoinDetail;
     };
 }
+export type StatType = 'numeric' | 'percent';

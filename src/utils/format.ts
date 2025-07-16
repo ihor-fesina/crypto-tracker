@@ -1,21 +1,20 @@
 import millify from 'millify';
-import type { Stats } from '../types.js'
 
-export const getStatValue = <K extends keyof Stats>(
-    stats: Stats,
-    key: K,
+const formatValue = (   value: number,
+                        type: 'numeric' | 'percent'):string => {
+    return (type === 'percent' ? (value.toFixed(2)+'%') : millify(value))
+}
+
+export const getStatValue = (
+    value: unknown,
+    type: 'numeric' | 'percent'
 ): string => {
-
-    const value = stats[key];
-
     if (typeof value === 'number') {
-        return (key === 'btcDominance' ? (value.toFixed(2)+'%') : millify(value))
+       return formatValue(value, type)
     }
-
     if (typeof value === 'string') {
-        const parsed = Number(value.trim());
-        return isNaN(parsed) ? 'N/A' :(key === 'btcDominance' ? (parsed.toFixed(2)+'%') : millify(parsed));
+        const numericValue = Number(value.trim());
+        return isNaN(numericValue) ? 'N/A' : formatValue(numericValue, type)
     }
-
     return 'N/A';
 };
