@@ -1,16 +1,25 @@
 import millify from 'millify';
 
-const formatValue = (   value: number,
-                        type: 'numeric' | 'percent'):string => {
-    return (type === 'percent' ? (value.toFixed(2)+'%') : millify(value))
+const formatValue = (value: number,
+                     type: 'numeric' | 'percent' | 'origin'): string => {
+    switch (type) {
+        case 'percent':
+            return value.toFixed(2) + '%'
+        case 'numeric':
+            return millify(value)
+        case 'origin':
+            return String(value)
+        default:
+            return String(value)
+    }
 }
 
 export const getStatValue = (
     value: unknown,
-    type: 'numeric' | 'percent'
+    type: 'numeric' | 'percent' | 'origin'
 ): string => {
     if (typeof value === 'number') {
-       return formatValue(value, type)
+        return formatValue(value, type)
     }
     if (typeof value === 'string') {
         const numericValue = Number(value.trim());

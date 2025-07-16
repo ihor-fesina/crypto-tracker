@@ -8,8 +8,8 @@ import {
   ResponsiveContainer,
   CartesianGrid,
 } from 'recharts';
-import { LoaderOne } from './ui/loader';
-import type { CoinHistoryApiResponse } from '../types';
+import { LoaderOne } from '../../ui/loader.tsx';
+import type { CoinHistoryApiResponse } from '../../../types.ts';
 
 interface CoinChartProps {
   history: CoinHistoryApiResponse | undefined;
@@ -33,7 +33,7 @@ const CoinChart: React.FC<CoinChartProps> = ({ history, isFetching }) => {
   }));
 
   return (
-      <div className="w-full h-80 bg-white rounded-xl shadow p-4">
+      <div className="w-full h-80 bg-white rounded-xl shadow p-4 mb-4">
         <h2 className="text-lg font-semibold mb-2 text-gray-700">Price Chart (USD)</h2>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data}>

@@ -1,9 +1,9 @@
 // src/components/StatisticSection.tsx
 
 import React from 'react';
-import StatisticCard from './StatisticCard';
-import type { MarketStats, Stats } from '../types.ts';
-import { getStatValue } from '../utils/format.ts';
+import StatisticCard from './StatisticCard.tsx';
+import type { MarketStats, Stats } from '../../../types.ts';
+import { getStatValue } from '../../../utils/format.ts';
 
 interface StatisticSectionProps {
     stats: Stats;

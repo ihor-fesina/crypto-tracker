@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import millify from "millify";
-import type { CoinDetailed } from "../types";
+import type { CoinDetailed } from "../../../types.ts";
 import {useNavigate} from "react-router-dom";
 
 interface Props {

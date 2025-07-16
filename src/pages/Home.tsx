@@ -1,9 +1,9 @@
 import {useGetStatsQuery, useGetCoinsQuery} from "../services/cryptoApi";
-import StatisticSection from "../components/StatisticSection";
+import StatisticSection from "../components/pages/Home/StatisticSection.tsx";
 
 import {LoaderOne} from "../components/ui/loader.tsx";
 import MarqueeSection from "../components/MarqueeSection.tsx";
-import CryptoSearch from "../components/CryptoSearch.tsx";
+import CryptoSearch from "../components/pages/Home/CryptoSearch.tsx";
 
 const Home = () => {
     const { data: statsData, isFetching: isFetchingStats, error: errorStats } = useGetStatsQuery();
