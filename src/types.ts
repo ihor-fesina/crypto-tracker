@@ -1,3 +1,5 @@
+export type AllowedTimePeriods = '1h' | '3h' | '12h' | '24h' | '7d' | '30d' | '3m' | '1y' | '3y' | '5y';
+
 export interface SimpleCoin {
     uuid: string;
     symbol: string;
@@ -8,7 +10,7 @@ export interface SimpleCoin {
 
 export interface CoinDetailed extends SimpleCoin {
     color: string;
-    "24hVolume": string;
+    '24hVolume': string;
     marketCap: string;
     price: string;
     btcPrice: string;
@@ -30,14 +32,6 @@ export interface CoinStats {
     total24hVolume: string;
 }
 
-export interface CoinsApiResponse {
-    status: 'success';
-    data: {
-        stats: CoinStats;
-        coins: CoinDetailed[];
-    };
-}
-
 export interface Stats {
     referenceCurrencyRate: number;
     totalCoins: number;
@@ -51,24 +45,78 @@ export interface Stats {
     newestCoins: SimpleCoin[];
 }
 
-export interface StatsApiResponse {
+export interface CoinsApiResponse {
     status: 'success';
     data: {
-        referenceCurrencyRate: number;
-        totalCoins: number;
-        totalMarkets: number;
-        totalExchanges: number;
-        totalMarketCap: string;
-        total24hVolume: string;
-        btcDominance: number;
-        btcMarketCap: string;
-        bestCoins: SimpleCoin[];
-        newestCoins: SimpleCoin[];
+        stats: CoinStats;
+        coins: CoinDetailed[];
     };
 }
 
-export interface ApiError {
-    status: 'fail';
+export interface StatsApiResponse {
+    status: 'success';
+    data: Stats;
+}
+
+export interface CoinDetailApiResponse {
+    status: 'success';
+    data: {
+        coin: CoinDetail;
+    };
+}
+
+export interface CoinDetail extends SimpleCoin {
+    description: string;
+    color: string;
+    websiteUrl: string;
+    links: CoinLink[];
+    supply: CoinSupply;
+    marketCap: string;
+    fullyDilutedMarketCap: string;
+    price: string;
+    btcPrice: string;
+    priceAt: number | null;
+    '24hVolume': string;
+    change: string;
+    rank: number;
+    numberOfMarkets: number;
+    numberOfExchanges: number;
+    sparkline: string[];
+    allTimeHigh: {
+        price: string;
+        timestamp: number;
+    };
+    lowVolume: boolean;
+    listedAt: number | null;
+    notices: CoinNotice[];
+    contractAddresses: string[];
+    tags: string[];
+    isWrappedTrustless: boolean;
+    wrappedTo: string | null;
+}
+
+export interface CoinLink {
+    name: string;
+    url: string;
     type: string;
-    message: string;
+}
+
+export interface CoinSupply {
+    confirmed: boolean;
+    supplyAt: number | null;
+    total: string;
+    circulating: string;
+    max: string;
+}
+
+export interface CoinNotice {
+    type: string;
+    value: string;
+}
+
+export interface CoinDetailApiResponse {
+    status: 'success';
+    data: {
+        coin: CoinDetail;
+    };
 }

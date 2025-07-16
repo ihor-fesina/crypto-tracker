@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import millify from "millify";
 import type { CoinDetailed } from "../types";
+import {useNavigate} from "react-router-dom";
 
 interface Props {
     coinsList: CoinDetailed[];
@@ -11,6 +12,7 @@ const ITEMS_PER_PAGE = 10;
 const CryptoSearch: React.FC<Props> = ({ coinsList }) => {
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
+    const navigate = useNavigate();
 
     const filtered = useMemo(
         () =>
@@ -53,7 +55,11 @@ const CryptoSearch: React.FC<Props> = ({ coinsList }) => {
                     </thead>
                     <tbody>
                     {paginated.map((coin) => (
-                        <tr key={coin.uuid} className="border-b border-white/10">
+                        <tr
+                            key={coin.uuid}
+                            onClick={() => navigate(`/coin/${coin.uuid}`)}
+                            className="border-b border-white/10 cursor-pointer hover:bg-white/10"
+                        >
                             <td className="p-2">{coin.rank}</td>
                             <td className="p-2 flex flex-row gap-2">
                                 <img
@@ -62,7 +68,8 @@ const CryptoSearch: React.FC<Props> = ({ coinsList }) => {
                                     width={24}
                                     height={24}
                                     className="rounded-full"
-                                />{coin.name} <span className='text-gray-500'>({coin.symbol})</span>
+                                />
+                                {coin.name} <span className='text-gray-500'>({coin.symbol})</span>
                             </td>
                             <td className="p-2">${millify(Number(coin.price))}</td>
                             <td className="p-2">{coin.change}%</td>
@@ -81,9 +88,7 @@ const CryptoSearch: React.FC<Props> = ({ coinsList }) => {
                 >
                     Prev
                 </button>
-                <span>
-          Page {page} of {totalPages}
-        </span>
+                <span>Page {page} of {totalPages}</span>
                 <button
                     onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                     disabled={page === totalPages}
@@ -95,5 +100,6 @@ const CryptoSearch: React.FC<Props> = ({ coinsList }) => {
         </div>
     );
 };
+
 
 export default CryptoSearch;

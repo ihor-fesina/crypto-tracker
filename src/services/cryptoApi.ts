@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type {CoinsApiResponse, StatsApiResponse} from "../types";
+import type {CoinDetailApiResponse, CoinsApiResponse, StatsApiResponse} from "../types";
 
 const cryptoApiHeaders = {
     'Content-Type': 'application/json',
@@ -20,10 +20,19 @@ export const cryptoApi = createApi({
         getCoins: builder.query<CoinsApiResponse, void>({
             query: () => createRequest(`/coins`),
         }),
+        getCoinDetail: builder.query<CoinDetailApiResponse, string>({
+            query: (uuid:string) => createRequest(`/coin/${uuid}`),
+        }),
+        getCoinHistory: builder.query<CoinsApiResponse, string>({
+            query: (uuid:string, timePeriod:string) => createRequest(`/coin/${uuid}?timePeriod=${timePeriod}`),
+        }),
+
     }),
 });
 
 export const {
     useGetStatsQuery,
     useGetCoinsQuery,
+    useGetCoinDetailQuery,
+    useGetCoinHistoryQuery,
 } = cryptoApi;
