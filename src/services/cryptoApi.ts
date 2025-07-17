@@ -6,8 +6,6 @@ import type {
     CoinsApiResponse, CoinsQueryParams,
     StatsApiResponse
 } from "../types";
-import {buildQueryUrl} from "../lib/utils.ts";
-
 
 const cryptoApiHeaders = {
     'Content-Type': 'application/json',
@@ -16,7 +14,7 @@ const cryptoApiHeaders = {
 
 const baseUrl = import.meta.env.VITE_CRYPTO_API_URL;
 
-const createRequest = (url: string) => ({ url, headers: cryptoApiHeaders });
+const createRequest = (url: string, params?:Record<string, string>) => ({ url, headers: cryptoApiHeaders, params});
 
 export const cryptoApi = createApi({
     reducerPath: "cryptoApi",
@@ -26,7 +24,7 @@ export const cryptoApi = createApi({
             query: () => createRequest(`/stats`),
         }),
         getCoins: builder.query<CoinsApiResponse, CoinsQueryParams>({
-            query: ({...params}) => createRequest(buildQueryUrl(`/coins`, params)),
+            query: ({...params}) => createRequest(`/coins`, params),
         }),
         getCoinDetail: builder.query<CoinDetailApiResponse, string>({
             query: (uuid:string) => createRequest(`/coin/${uuid}`),

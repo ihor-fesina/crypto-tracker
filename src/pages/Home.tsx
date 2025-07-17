@@ -2,7 +2,7 @@ import {useGetStatsQuery} from "../services/cryptoApi";
 import StatisticSection from "../components/pages/Home/StatisticSection.tsx";
 
 import {LoaderOne} from "../components/ui/loader.tsx";
-import MarqueeSection from "../components/MarqueeSection.tsx";
+import MarqueeSection from "../components/pages/Home/MarqueeSection.tsx";
 import CryptoSearch from "../components/pages/Home/CryptoSearch.tsx";
 
 const Home = () => {

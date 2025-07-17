@@ -1,8 +1,8 @@
 import React from 'react';
-import type { SimpleCoin } from "../types";
+import type { SimpleCoin } from "../../../types.ts";
 import Marquee from "react-fast-marquee";
-import { HoverBorderGradient } from "./ui/hover-border-gradient.tsx";
-import { cn } from "../lib/utils.ts";
+import { HoverBorderGradient } from "../../ui/hover-border-gradient.tsx";
+import { cn } from "../../../lib/utils.ts";
 
 interface Props {
     title: string;
