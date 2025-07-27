@@ -3,30 +3,33 @@ import { useGetCryptoNewsQuery } from '../services/cryptoNewsApi';
 import { LoaderOne } from '../components/ui/loader';
 import NewsCard from '../components/pages/News/NewsCard';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
+import { useIsMobile } from '../hooks/useIsMobile';
 import type { CryptoNewsArticle } from '../types';
-
-const ARTICLES_PER_PAGE = 12;
 
 const News: React.FC = () => {
     const [allArticles, setAllArticles] = useState<CryptoNewsArticle[]>([]);
     const [offset, setOffset] = useState(0);
     const [hasNextPage, setHasNextPage] = useState(true);
     
+    const isMobile = useIsMobile();
+    const articlesPerPage = isMobile ? 6 : 12;
+    const threshold = isMobile ? 400 : 1000;
+    
     const { data: cryptoNews, isFetching, error } = useGetCryptoNewsQuery({
         offset,
-        limit: ARTICLES_PER_PAGE
+        limit: articlesPerPage
     });
 
     const loadMore = useCallback(() => {
         if (!isFetching && hasNextPage) {
-            setOffset(prev => prev + ARTICLES_PER_PAGE);
+            setOffset(prev => prev + articlesPerPage);
         }
-    }, [isFetching, hasNextPage]);
+    }, [isFetching, hasNextPage, articlesPerPage]);
 
     useInfiniteScroll(loadMore, {
         hasNextPage,
         isLoading: isFetching,
-        threshold: 1000
+        threshold
     });
 
     useEffect(() => {
@@ -37,11 +40,11 @@ const News: React.FC = () => {
                 setAllArticles(prev => [...prev, ...cryptoNews]);
             }
             
-            if (cryptoNews.length < ARTICLES_PER_PAGE) {
+            if (cryptoNews.length < articlesPerPage) {
                 setHasNextPage(false);
             }
         }
-    }, [cryptoNews, offset]);
+    }, [cryptoNews, offset, articlesPerPage]);
 
     if (isFetching && allArticles.length === 0) {
         return (
